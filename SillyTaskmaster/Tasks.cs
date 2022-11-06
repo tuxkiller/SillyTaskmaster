@@ -1,22 +1,31 @@
-﻿namespace SillyTaskmaster
+﻿using System.Collections;
+
+namespace SillyTaskmaster
 {
-    public class Tasks
+
+    [Serializable]
+    public class Tasks //: IComparable<Tasks>
     {
+        // indexowanie elementów
+        public string this[int id]
+        {
+            get { return this[id]; }
+            set { this[id] = value; }
+        }
         public Tasks()
         {
 
         }
-        public Tasks(int? id, String? title, String? description, bool done)
+        public Tasks(int id, String? title, String? description, bool done)
         {
             this.id = id;
             this.title = title; 
             this.description = description; 
-            this.done = done;   
+            this.done = done; 
 
         }
 
-
-        public int? id;
+        public int id;
         public String? title;
         public String? description;
         public DateTime? deadLine;
@@ -31,12 +40,9 @@
             Console.WriteLine(this.done);
             Console.WriteLine("--------");
         }
-        public void SetDone()
-        {
-            done = true;   
-        }
-        
-     }
+        public void SetDone() =>    this.done = true;
+
+    }
 
 
     }
