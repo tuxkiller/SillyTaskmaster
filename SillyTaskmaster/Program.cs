@@ -10,7 +10,7 @@ class Program
         string menuSelect = "";
         string filepath = "E:/SillyTaskmaster.bin";
 
-
+        //
         // Przykładowe
         //
         myTaskTemp.id = 1;
