@@ -2,42 +2,16 @@
 
 class Program
 {
-
     static void Main(string[] args)
     {
         var myTasks = new List<Tasks>();
         Tasks myTaskTemp = new Tasks();
         string menuSelect = "";
-        string filepath = "E:/SillyTaskmaster.bin";
+        string filePath = "E:/SillyTaskmaster.bin";
+        string autoSavePath = "E:/SillyTaskmasterDefault";
 
-        //
-        // Przykładowe
-        //
-        myTaskTemp.id = 1;
-        myTaskTemp.title = "Odrobić Przyrode";
-        myTaskTemp.description = "Wakacyjne zadania z przyrody.";
-        myTaskTemp.deadLine = new DateTime(2024, 4, 10, 23, 59, 59);
-        myTasks.Add(myTaskTemp);
 
-        myTaskTemp = new Tasks();
-        myTaskTemp.id = 2;
-        myTaskTemp.title = "Kanapki";
-        myTaskTemp.description = "Zrobić chleb z masłem i powidłami";
-        myTaskTemp.deadLine = DateTime.Now + new TimeSpan(1, 0, 0);
-        myTasks.Add(myTaskTemp);
-        myTaskTemp = new Tasks();
-
-        myTaskTemp = new Tasks();
-        myTaskTemp.id = 3;
-        myTaskTemp.title = "Cwiczenia";
-        myTaskTemp.description = "Pompki 4x20";
-        myTaskTemp.deadLine = new DateTime(2022, 12, 31);
-        myTasks.Add(myTaskTemp);
-
-        myTaskTemp = new Tasks();
-        //
-        //
-        
+        if (File.Exists(autoSavePath)) myTasks = BinarySerialization.ReadFromBinaryFile<List<Tasks>>(autoSavePath);
 
         Console.WriteLine("TASK MASTER v1.0\n");
         do
@@ -60,8 +34,7 @@ class Program
                 {
                     task.ShowItem();
                 }
-            }
-
+            } 
             else if (menuSelect == "2")
             {
                 myTaskTemp = new Tasks();
@@ -90,7 +63,6 @@ class Program
             else if (menuSelect == "5")
             {
                 string sortBy;
-                // Tutaj trzeba będzie poznać interface ICompare<T>
                 Console.WriteLine("Sort tasks by: ");
                 Console.WriteLine("1 = Title " + "2. Deadline date ");
                 sortBy = Console.ReadLine();
@@ -104,14 +76,14 @@ class Program
                     
                 }
             }
-            if (menuSelect == "6")
+            else if (menuSelect == "6")
             {
                 Console.WriteLine("\nSaving file...");
                 //
                 try
                 {
-                    BinarySerialization.WriteToBinaryFile<List<Tasks>>(filepath, myTasks);
-                    Console.WriteLine("\nSaved succesfully at " + filepath);
+                    BinarySerialization.WriteToBinaryFile<List<Tasks>>(autoSavePath, myTasks);
+                    Console.WriteLine("\nSaved succesfully at " + autoSavePath);
                 }
                 catch (Exception)
                 {
@@ -122,11 +94,41 @@ class Program
             else if (menuSelect.ToUpper() == "X")
             {
                 Console.WriteLine("\nClosing application ");
+                BinarySerialization.WriteToBinaryFile<List<Tasks>>(autoSavePath, myTasks);
+            }
+            else if (menuSelect == "Default")
+            {
+                myTaskTemp = new Tasks();
+                myTaskTemp.id = 1;
+                myTaskTemp.title = "Odrobić Przyrode";
+                myTaskTemp.description = "Wakacyjne zadania z przyrody.";
+                myTaskTemp.deadLine = new DateTime(2024, 4, 10, 23, 59, 59);
+                myTasks.Add(myTaskTemp);
+
+                myTaskTemp = new Tasks();
+                myTaskTemp.id = 2;
+                myTaskTemp.title = "Kanapki";
+                myTaskTemp.description = "Zrobić chleb z masłem i powidłami";
+                myTaskTemp.deadLine = DateTime.Now + new TimeSpan(1, 0, 0);
+                myTasks.Add(myTaskTemp);
+
+                myTaskTemp = new Tasks();
+                myTaskTemp.id = 3;
+                myTaskTemp.title = "Cwiczenia";
+                myTaskTemp.description = "Pompki 4x20";
+                myTaskTemp.deadLine = new DateTime(2022, 12, 31);
+                myTasks.Add(myTaskTemp);
+                myTaskTemp = new Tasks();
+            }
+            else if (menuSelect == "Clear")
+            {
+                myTasks.Clear();
+                BinarySerialization.WriteToBinaryFile<List<Tasks>>(autoSavePath, myTasks);
             }
             else
             {
                 Console.WriteLine("\nWrong selection, press any key to continue ");
-                menuSelect = "X";
+                //menuSelect = "X";
             }
             Console.ReadKey();
             Console.Clear();
