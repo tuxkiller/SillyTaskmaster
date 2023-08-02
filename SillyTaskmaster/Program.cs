@@ -72,7 +72,7 @@ class Program
                     {
                         myTasks.RemoveAt(System.Convert.ToInt32(Console.ReadLine()));
 
-                    } catch (Exception ex) { Console.WriteLine("\nWRONG ID ! "); }
+                    } catch (Exception ex) { Console.WriteLine(ex.Message); }
                     break;
                 // Set Task as DONE
                 case "4":
@@ -105,9 +105,9 @@ class Program
                         BinarySerialization.WriteToBinaryFile<List<Tasks>>(autoSavePath, myTasks);
                         Console.WriteLine("\nSaved succesfully at file location: " + autoSavePath);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        Console.WriteLine("\nERROR! I can't save a file!");
+                        Console.WriteLine(ex.Message);
                         throw;
                     }
                     break;
@@ -117,6 +117,11 @@ class Program
                     BinarySerialization.WriteToBinaryFile<List<Tasks>>(autoSavePath, myTasks);
                     break;
                 // Wczytanie testowych danych 
+                case "CLEAR":
+                    myTasks.Clear();
+                    Console.WriteLine("\nALL Data cleared...");
+                    break;
+
                 case "TESTDATA":
                     myTaskTemp = new Tasks();
                     myTaskTemp.title = "Odrobić Przyrode";
