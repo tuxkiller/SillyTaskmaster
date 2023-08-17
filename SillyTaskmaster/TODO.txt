@@ -1,0 +1,5 @@
+05.08.2023 - Jest prawie 04:00 w nocy, próbuje stworzyć Dictionary w C# do Task Managera który będzie zawierał kategorie. 
+Program - Program
+Tasks - Klasa Zadań
+Czyli ten słownik (lista) musi zawierać zmienną tego samego typu w Programie i Tasks? 
+https://learn.microsoft.com/pl-pl/dotnet/csharp/programming-guide/classes-and-structs/how-to-initialize-a-dictionary-with-a-collection-initializer

@@ -1,11 +1,30 @@
 ﻿using SillyTaskmaster;
 using System.Diagnostics.Metrics;
 using System.Globalization;
+using System.Collections.Generic;
 
 class Program
 {
+    //static Dictionary<> 
+    /*
+    static Dictionary<int, TasksCategories> GetTasksCategories()
+    {
+        return new Dictionary<int, TasksCategories>
+        {
+            { 101, new TasksCategories(1, "Nauka") },
+            { 102, new TasksCategories(2, "DJ") },
+            { 103, new TasksCategories(3, "Naprawa") },
+            { 104, new TasksCategories(4, "Zdrowie") },
+            { 105, new TasksCategories(5, "Pieniądze") },
+            { 106, new TasksCategories(6, "Rodzina") },
+            { 107, new TasksCategories(7, "Inne") },
+        };
+    }
+    */
     static void Main(string[] args)
     {
+        //Dictionary<int, TasksCategories> tasksCategories = GetTasksCategories();
+        
         var myTasks = new List<Tasks>();
         Tasks myTaskTemp = new Tasks();
         string menuSelect = "";
@@ -13,6 +32,8 @@ class Program
         DateTime dateTimeTemp;
         string autoSavePath = "E:/SillyTaskmasterDefault";
 
+        //TasksCategories SelectedCategory = tasksCategories[7];
+        //
 
         if (File.Exists(autoSavePath)) myTasks = BinarySerialization.ReadFromBinaryFile<List<Tasks>>(autoSavePath);
         do
@@ -24,7 +45,8 @@ class Program
         Console.WriteLine("3 - Delete Task");
         Console.WriteLine("4 - Set task as done");
         Console.WriteLine("5 - Sort tasks");
-        Console.WriteLine("6 - Save");
+        Console.WriteLine("6 - Show Task Categories");
+        Console.WriteLine("7 - Save");
         Console.WriteLine("X - Quit");
         Console.Write("Select: ");
 
@@ -54,6 +76,37 @@ class Program
                         strTempTask = Console.ReadLine();
                     }
                     myTaskTemp.deadLine = dateTimeTemp;
+                    Console.WriteLine("\nSelect Category: ");
+                    ////////////////////////////////////
+                    /// TU BĘDZIE KIEDYŚ ŻE WYSWIETLA SIĘ LISTA KATEGORII I WYBIERASZ
+                    /// EDIT: MYYYYYYYYK!!
+                    myTaskTemp.ShowCategories();
+                    Console.WriteLine("\n\nSelect category ID: ");
+                    
+                    try
+                    {
+                        myTaskTemp.catID = System.Convert.ToInt32(Console.ReadLine());
+                            
+                    } catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        throw;
+                    }
+                    /// 
+                    /*
+                    myTaskTemp.categoryID = int.Parse(Console.ReadLine());// (Console.ReadLine());
+                    SelectedCategory = tasksCategories[myTaskTemp.categoryID];
+                    */
+
+                    //myTaskTemp.Category.
+
+                    //////
+                    //////
+                    ///
+
+
+
+
                     myTasks.Add(myTaskTemp);
                     myTasks.Sort((t1, t2) => t1.title.CompareTo(t2.title)); //domyslne sortowanie po tytule po dodaniu zadania
                     Console.WriteLine("\nTask added succesfully, press any key to continue ");
@@ -97,8 +150,14 @@ class Program
                             break; 
                     }
                     break;
-                // Saveing File
+
+                // Show avaiable categories from Dictionary   
                 case "6":
+                    myTaskTemp.ShowCategories();
+                    break;
+
+                // Saveing File
+                case "7":
                     Console.WriteLine("\nSaving file...");
                     try
                     {
@@ -127,18 +186,21 @@ class Program
                     myTaskTemp.title = "Odrobić Przyrode";
                     myTaskTemp.description = "Wakacyjne zadania z przyrody.";
                     myTaskTemp.deadLine = new DateTime(2024, 4, 10, 23, 59, 59);
+                    myTaskTemp.catID = 1;
                     myTasks.Add(myTaskTemp);
 
                     myTaskTemp = new Tasks();
                     myTaskTemp.title = "Kanapki";
                     myTaskTemp.description = "Zrobić chleb z masłem i powidłami";
                     myTaskTemp.deadLine = DateTime.Now + new TimeSpan(1, 0, 0);
+                    myTaskTemp.catID = 4;
                     myTasks.Add(myTaskTemp);
 
                     myTaskTemp = new Tasks();
                     myTaskTemp.title = "Cwiczenia";
                     myTaskTemp.description = "Pompki 4x20";
                     myTaskTemp.deadLine = new DateTime(2022, 12, 31);
+                    myTaskTemp.catID = 4;
                     myTasks.Add(myTaskTemp);
                     // TEST
                     //Console.WriteLine(myTasks.IndexOf(myTaskTemp));
